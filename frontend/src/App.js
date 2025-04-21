@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navigation from "./layout/Navigation";
+
 import Accueil from "./composants/pages/Accueil";
 import Municipalite from "./composants/pages/Municipalite";
 import Services from "./composants/pages/Services";
@@ -13,7 +13,6 @@ import Connecter from "./composants/Connecter";
 function App() {
   return (
     <Router>
-      <Navigation />
       <Routes>
         <Route path="/" element={<Accueil />} />
         <Route path="/municipalite" element={<Municipalite />} />
