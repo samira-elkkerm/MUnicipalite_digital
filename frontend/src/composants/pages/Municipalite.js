@@ -1,12 +1,19 @@
 import React from "react";
-
+import Navigation from "../../layout/Navigation";
+import Slider from "../../layout/Slider";
+import Footer from './../../layout/Footer';
+import CommuneMarrakech from './CommuneMarrakech';
+import ArrondissementsMarrakech from './ArrondissementsMarrakech';
 const Municipalite = () => {
   return (
-    <div>
-      <h1>
-        Rencontrez vos élus et découvrez le fonctionnement de votre mairie
-      </h1>
-    </div>
+    <>
+      <Navigation transparent={true} />     
+      <Slider />
+      <CommuneMarrakech/>
+      <ArrondissementsMarrakech/>
+      <Footer/>
+
+    </>
   );
 };
 

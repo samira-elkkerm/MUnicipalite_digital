@@ -74,12 +74,13 @@ const Connecter = () => {
       const data = await response.json();
   
       if (!response.ok) {
-        throw new Error(data.error || data.message || "Erreur de connexion");
+        throw new Error(data.message || "Email ou mot de passe incorrect");
       }
   
       if (data.token) {
-        localStorage.setItem("user",data.user.id);
-        window.location.href = data.redirect;
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user.id));      
+        navigate('/dashboard'); ;
       }
     } catch (error) {
       console.error("Erreur de connexion:", error);
@@ -89,12 +90,33 @@ const Connecter = () => {
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      navigate("/");
-    }
-  }, [navigate]);
+ useEffect(() => {
+  const token = sessionStorage.getItem("authToken");
+  const user = sessionStorage.getItem("user");
+
+  if (token && user) {
+    fetch('http://localhost:8000/api/protected-route', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      },
+    })
+    .then(response => {
+      if (!response.ok) { 
+        throw new Error('Erreur d\'authentification');
+      }
+      return response.json();
+    })
+    .then(data => console.log("Données protégées :", data))
+    .catch(error => {
+      console.error("Erreur :", error);
+      sessionStorage.removeItem("authToken"); 
+      navigate('/Connecter'); 
+    });
+  }
+}, [navigate]);
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
